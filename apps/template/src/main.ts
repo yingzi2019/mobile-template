@@ -1,33 +1,22 @@
-import { createApp } from 'vue'
-import { createHead } from '@unhead/vue/client'
-import App from '@/App.vue'
-import router from '@/router'
-import pinia from '@/stores'
-import 'virtual:uno.css'
-import '@/styles/app.less'
-import '@/styles/var.less'
-import { i18n } from '@/utils/i18n'
+import { unmountGlobalLoading } from '@vben/utils';
 
-// Vant 桌面端适配
-import '@vant/touch-emulator'
+/**
+ * 应用初始化完成之后再进行页面加载渲染
+ */
+async function initApplication() {
+  // name用于指定项目唯一标识
+  // 用于区分不同项目的偏好设置以及存储数据的key前缀以及其他一些需要隔离的数据
+  const env = import.meta.env.PROD ? 'prod' : 'dev';
+  const appVersion = import.meta.env.VITE_APP_VERSION;
+  const namespace = `${import.meta.env.VITE_APP_NAMESPACE}-${appVersion}-${env}`;
 
-/* --------------------------------
-Vant 中有个别组件是以函数的形式提供的，
-包括 Toast，Dialog，Notify 和 ImagePreview 组件。
-在使用函数组件时，unplugin-vue-components
-无法自动引入对应的样式，因此需要手动引入样式。
-------------------------------------- */
-import 'vant/es/toast/style'
-import 'vant/es/dialog/style'
-import 'vant/es/notify/style'
-import 'vant/es/image-preview/style'
+  // 启动应用并挂载
+  // vue应用主要逻辑及视图
+  const { bootstrap } = await import('./bootstrap');
+  await bootstrap(namespace);
 
-const app = createApp(App)
-const head = createHead()
+  // 移除并销毁loading
+  unmountGlobalLoading();
+}
 
-app.use(head)
-app.use(router)
-app.use(pinia)
-app.use(i18n)
-
-app.mount('#app')
+initApplication();

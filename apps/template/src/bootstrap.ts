@@ -1,20 +1,31 @@
 import { createApp, watchEffect } from 'vue';
 
-import { preferences } from '@vben/preferences';
 import { initStores } from '@vben/stores';
 import '@vben/styles';
-import '@vben/styles/antd';
 
 import App from '@/App.vue';
+import { APP_NAME } from '@/constants';
 import { $t, setupI18n } from '@/locales';
 import { router } from '@/router';
 import { initAppConfig } from '@/utils/init';
+import { createHead } from '@unhead/vue/client';
 import { useTitle } from '@vueuse/core';
 
-// import '@/styles/index.scss';
+// Vant 桌面端适配
+import '@vant/touch-emulator';
+import 'vant/es/toast/style';
+import 'vant/es/dialog/style';
+import 'vant/es/notify/style';
+import 'vant/es/image-preview/style';
+
+import 'virtual:uno.css';
 
 async function bootstrap(namespace: string) {
   const app = createApp(App);
+
+  // 配置 unhead
+  const head = createHead();
+  app.use(head);
 
   // 国际化 i18n 配置
   await setupI18n(app);
@@ -30,13 +41,9 @@ async function bootstrap(namespace: string) {
 
   // 动态更新标题
   watchEffect(() => {
-    if (preferences.app.dynamicTitle) {
-      const routeTitle = (router.currentRoute.value?.meta?.title ||
-        '') as string;
-      const pageTitle =
-        (routeTitle ? `${$t(routeTitle)} - ` : '') + preferences.app.name;
-      useTitle(pageTitle);
-    }
+    const routeTitle = (router.currentRoute.value?.meta?.title || '') as string;
+    const pageTitle = (routeTitle ? `${$t(routeTitle)} - ` : '') + APP_NAME;
+    useTitle(pageTitle);
   });
 
   app.mount('#app');

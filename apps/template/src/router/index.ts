@@ -1,43 +1,37 @@
-import type { EnhancedRouteLocation } from './types';
+import {
+  createRouter,
+  createWebHashHistory,
+  createWebHistory,
+} from 'vue-router';
 
-import { createRouter, createWebHistory } from 'vue-router/auto';
-import { handleHotUpdate, routes } from 'vue-router/auto-routes';
+import { resetStaticRoutes } from '@vben/utils';
 
-import { useUserStore } from '@/stores';
-import useRouteCacheStore from '@/stores/modules/routeCache';
-import { isLogin } from '@/utils/auth';
-import setPageTitle from '@/utils/set-page-title';
-import NProgress from 'nprogress';
+import { createRouterGuard } from './guard';
+import { routes } from './routes';
 
-import 'nprogress/nprogress.css';
-
-NProgress.configure({ showSpinner: true, parent: '#app' });
-
-export const router = createRouter({
-  history: createWebHistory(import.meta.env.VITE_APP_PUBLIC_PATH),
+/**
+ *  @zh_CN 创建vue-router实例
+ */
+const router = createRouter({
+  history:
+    import.meta.env.VITE_ROUTER_HISTORY === 'hash'
+      ? createWebHashHistory(import.meta.env.VITE_BASE)
+      : createWebHistory(import.meta.env.VITE_BASE),
+  // 应该添加到路由的初始路由列表。
   routes,
+  scrollBehavior: (to, _from, savedPosition) => {
+    if (savedPosition) {
+      return savedPosition;
+    }
+    return to.hash ? { behavior: 'smooth', el: to.hash } : { left: 0, top: 0 };
+  },
+  // 是否应该禁止尾部斜杠。
+  // strict: true,
 });
 
-// This will update routes at runtime without reloading the page
-if (import.meta.hot) handleHotUpdate(router);
+const resetRoutes = () => resetStaticRoutes(router, routes);
 
-router.beforeEach(async (to: EnhancedRouteLocation) => {
-  NProgress.start();
+// 创建路由守卫
+createRouterGuard(router);
 
-  const routeCacheStore = useRouteCacheStore();
-  const userStore = useUserStore();
-
-  // Route cache
-  routeCacheStore.addRoute(to);
-
-  // Set page title
-  setPageTitle(to.meta.title);
-
-  if (isLogin() && !userStore.userInfo?.uid) await userStore.info();
-});
-
-router.afterEach(() => {
-  NProgress.done();
-});
-
-export default { router, routes };
+export { resetRoutes, router };

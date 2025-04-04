@@ -1,14 +1,11 @@
 import type { RouteRecordRaw } from 'vue-router';
 
-import { DEFAULT_HOME_PATH } from '@vben/constants';
-
 import { $t } from '@/locales';
-// import Login from '@/views/_core/authentication/login.vue';
-import Login from '@/views/Login.vue';
+import Login from '@/views/core/login.vue';
 
 /** 全局404页面 */
 const fallbackNotFoundRoute: RouteRecordRaw = {
-  component: () => import('@/views/_core/fallback/not-found.vue'),
+  component: () => import('@/views/core/not-found.vue'),
   meta: {
     hideInBreadcrumb: true,
     hideInMenu: true,
@@ -22,20 +19,35 @@ const fallbackNotFoundRoute: RouteRecordRaw = {
 /** 基本路由，这些路由是必须存在的 */
 const coreRoutes: RouteRecordRaw[] = [
   {
-    name: 'Root',
-    path: '/',
-    redirect: DEFAULT_HOME_PATH,
+    name: 'Login',
+    path: '/login',
+    component: Login,
     meta: {
-      title: 'Root',
+      title: $t('page.auth.login'),
     },
   },
   {
-    name: 'Login',
-    component: Login,
-    path: '/login',
+    name: 'ForgetPassword',
+    path: '/forget-password',
+    component: () => import('@/views/core/forget-password.vue'),
     meta: {
-      hideInTab: true,
-      title: $t('page.auth.login'),
+      title: $t('page.auth.forgetPassword'),
+    },
+  },
+  {
+    name: 'Register',
+    path: '/register',
+    component: () => import('@/views/core/register.vue'),
+    meta: {
+      title: $t('page.auth.register'),
+    },
+  },
+  {
+    name: 'About',
+    path: '/about',
+    component: () => import('@/views/core/about.vue'),
+    meta: {
+      title: $t('page.auth.about'),
     },
   },
 ];

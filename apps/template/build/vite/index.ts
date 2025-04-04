@@ -18,11 +18,7 @@ export async function createVitePlugins(mode: string) {
 
     Components({
       extensions: ['vue'],
-      resolvers: [
-        VantResolver({
-          importStyle: false,
-        }),
-      ],
+      resolvers: [VantResolver()],
       include: [/\.vue$/, /\.vue\?vue/],
       dts: 'src/types/components.d.ts',
     }),
@@ -33,17 +29,13 @@ export async function createVitePlugins(mode: string) {
         'vue',
         '@vueuse/core',
         {
-          'vue-router/auto': ['useLink'],
+          'vue-router/auto': ['useLink', 'useRouter', 'useRoute'],
           'vue-i18n': ['useI18n'],
         },
       ],
       dts: 'src/types/auto-imports.d.ts',
       dirs: ['src/composables'],
-      resolvers: [
-        VantResolver({
-          importStyle: false,
-        }),
-      ],
+      resolvers: [VantResolver()],
     }),
 
     legacy({

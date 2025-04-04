@@ -1,40 +1,40 @@
-import request from '@/utils/request'
+import request from '@/utils/request';
 
 export interface LoginData {
-  email: string
-  password: string
+  email: string;
+  password: string;
 }
 
 export interface LoginRes {
-  token: string
+  token: string;
 }
 
 export interface UserState {
-  uid?: number
-  name?: string
-  avatar?: string
+  uid?: number;
+  name?: string;
+  avatar?: string;
 }
 
 export function login(data: LoginData): Promise<any> {
-  return request.post<LoginRes>('/auth/login', data)
+  return request.post<LoginRes>('/auth/login', data);
 }
 
 export function logout() {
-  return request.post('/user/logout')
+  return request.post('/user/logout');
 }
 
 export function getUserInfo() {
-  return request<UserState>('/user/me')
+  return request<UserState>('/user/me');
 }
 
 export function getEmailCode(): Promise<any> {
-  return request.get('/user/email-code')
+  return request.get('/user/email-code');
 }
 
 export function resetPassword(): Promise<any> {
-  return request.post('/user/reset-password')
+  return request.post('/user/reset-password');
 }
 
 export function register(): Promise<any> {
-  return request.post('/user/register')
+  return request.post('/user/register');
 }

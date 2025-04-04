@@ -1,10 +1,6 @@
-import type { Locale } from 'ant-design-vue/es/locale';
-
 import type { App } from 'vue';
 
 import type { LocaleSetupOptions, SupportedLanguagesType } from '@vben/locales';
-
-import { ref } from 'vue';
 
 import {
   $t,
@@ -12,17 +8,19 @@ import {
   loadLocalesMapFromDir,
 } from '@vben/locales';
 
-import antdEnLocale from 'ant-design-vue/es/locale/en_US';
-import antdDefaultLocale from 'ant-design-vue/es/locale/zh_CN';
+import { DEFAULT_LOCALE } from '@/constants';
 import dayjs from 'dayjs';
-
-const antdLocale = ref<Locale>(antdDefaultLocale);
+import { Locale } from 'vant';
+// 导入 Vant 的语言包
+import enUS from 'vant/es/locale/lang/en-US';
+import hiIN from 'vant/es/locale/lang/hi-IN';
+import zhCN from 'vant/es/locale/lang/zh-CN';
 
 const modules = import.meta.glob('./langs/**/*.json');
 
 const localesMap = loadLocalesMapFromDir(
   /\.\/langs\/([^/]+)\/(.*)\.json$/,
-  modules
+  modules,
 );
 /**
  * 加载应用特有的语言包
@@ -34,6 +32,7 @@ async function loadMessages(lang: SupportedLanguagesType) {
     localesMap[lang]?.(),
     loadThirdPartyMessage(lang),
   ]);
+  console.log('appLocaleMessages', appLocaleMessages?.default);
   return appLocaleMessages?.default;
 }
 
@@ -42,7 +41,7 @@ async function loadMessages(lang: SupportedLanguagesType) {
  * @param lang
  */
 async function loadThirdPartyMessage(lang: SupportedLanguagesType) {
-  await Promise.all([loadAntdLocale(lang), loadDayjsLocale(lang)]);
+  await Promise.all([loadVantLocale(lang), loadDayjsLocale(lang)]);
 }
 
 /**
@@ -54,6 +53,10 @@ async function loadDayjsLocale(lang: SupportedLanguagesType) {
   switch (lang) {
     case 'en-US': {
       locale = await import('dayjs/locale/en');
+      break;
+    }
+    case 'hi-IN': {
+      locale = await import('dayjs/locale/hi');
       break;
     }
     case 'zh-CN': {
@@ -73,30 +76,36 @@ async function loadDayjsLocale(lang: SupportedLanguagesType) {
 }
 
 /**
- * 加载antd的语言包
+ * 加载 Vant 的语言包
  * @param lang
  */
-async function loadAntdLocale(lang: SupportedLanguagesType) {
+async function loadVantLocale(lang: SupportedLanguagesType) {
   switch (lang) {
     case 'en-US': {
-      antdLocale.value = antdEnLocale;
+      Locale.use('en-US', enUS);
+      break;
+    }
+    case 'hi-IN': {
+      Locale.use('hi-IN', hiIN);
       break;
     }
     case 'zh-CN': {
-      antdLocale.value = antdDefaultLocale;
+      Locale.use('zh-CN', zhCN);
       break;
+    }
+    default: {
+      Locale.use('en-US', enUS);
     }
   }
 }
 
 async function setupI18n(app: App, options: LocaleSetupOptions = {}) {
   await coreSetup(app, {
-    // defaultLocale: preferences.app.locale,
-    defaultLocale: 'zh-CN',
+    defaultLocale: DEFAULT_LOCALE,
     loadMessages,
     missingWarn: !import.meta.env.PROD,
     ...options,
   });
 }
 
-export { $t, antdLocale, setupI18n };
+export { $t, setupI18n };

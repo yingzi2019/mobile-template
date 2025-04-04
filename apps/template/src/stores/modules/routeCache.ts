@@ -1,22 +1,18 @@
-import { defineStore } from 'pinia'
-import type { RouteRecordName } from 'vue-router'
-import type { EnhancedRouteLocation } from '@/router/types'
+import type { RouteRecordNameGeneric, RouteRecordRaw } from 'vue-router';
 
-const useRouteCacheStore = defineStore('route-cache', () => {
-  const routeCaches = ref<RouteRecordName[]>([])
+import { defineStore } from 'pinia';
 
-  const addRoute = (route: EnhancedRouteLocation) => {
-    if (routeCaches.value.includes(route.name))
-      return
+export const useRouteCacheStore = defineStore('route-cache', () => {
+  const routeCaches = ref<RouteRecordNameGeneric[]>([]);
 
-    if (route?.meta?.keepAlive)
-      routeCaches.value.push(route.name)
-  }
+  const addRoute = (route: RouteRecordRaw) => {
+    if (routeCaches.value.includes(route.name)) return;
+
+    if (route?.meta?.keepAlive) routeCaches.value.push(route.name);
+  };
 
   return {
     routeCaches,
     addRoute,
-  }
-})
-
-export default useRouteCacheStore
+  };
+});
