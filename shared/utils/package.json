@@ -1,0 +1,15 @@
+{
+  "name": "@shared/utils",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "clean": "rimraf dist"
+  },
+  "main": "index.ts",
+  "types": "index.ts",
+  "dependencies": {
+    "@vueuse/core": "catalog:",
+    "vue": "catalog:"
+  }
+}

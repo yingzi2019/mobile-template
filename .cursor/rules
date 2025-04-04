@@ -1,0 +1,89 @@
+{
+  "project": {
+    "name": "sass-manage-monorepo",
+    "description": "企业级中后台前端解决方案，基于vue-vben-admin的二次开发项目"
+  },
+  "settings": {
+    "language": "zh-CN",
+    "style": "professional"
+  },
+  "codeStyle": {
+    "naming": {
+      "components": "PascalCase",
+      "functions": "camelCase",
+      "constants": "UPPER_SNAKE_CASE"
+    },
+    "formatting": {
+      "maxLineLength": 100,
+      "quotes": "single",
+      "indent": 2,
+      "trailingComma": "es5"
+    }
+  },
+  "vue": {
+    "useCompositionAPI": true,
+    "scriptSetup": true,
+    "componentStructure": ["script", "template", "style"],
+    "propsNaming": "camelCase",
+    "eventsNaming": "kebab-case"
+  },
+  "typescript": {
+    "strict": true,
+    "preferInterface": true,
+    "explicitReturnType": true,
+    "allowAny": false
+  },
+  "imports": {
+    "order": [
+      "vue",
+      "vue-router",
+      "pinia",
+      "@shared/*",
+      "./*"
+    ],
+    "grouping": true,
+    "newlineBetweenGroups": true
+  },
+  "patterns": {
+    "stateManagement": "pinia",
+    "apiClient": "axios",
+    "preferComposables": true,
+    "i18n": "vue-i18n"
+  },
+  "monorepo": {
+    "structure": {
+      "apps": "应用目录",
+      "shared": "共享模块目录",
+      "internal": "内部工具目录",
+      "playground": "组件开发环境"
+    },
+    "sharedPackages": {
+      "naming": "@shared/{name}",
+      "structure": {
+        "components": "共享组件",
+        "constants": "共享常量",
+        "requests": "共享API请求",
+        "stores": "共享状态管理",
+        "types": "共享类型定义",
+        "utils": "共享工具函数"
+      }
+    }
+  },
+  "ai": {
+    "contextLevel": "detailed",
+    "includeComments": true,
+    "includeTypes": true,
+    "preferredPatterns": [
+      "Composition API",
+      "TypeScript",
+      "组件化",
+      "响应式设计"
+    ],
+    "avoidPatterns": [
+      "Options API",
+      "直接DOM操作",
+      "全局变量",
+      "硬编码"
+    ]
+  }
+}
