@@ -19,6 +19,7 @@ import 'vant/es/notify/style';
 import 'vant/es/image-preview/style';
 
 import 'virtual:uno.css';
+import '@/styles/transition.scss';
 
 async function bootstrap(namespace: string) {
   const app = createApp(App);

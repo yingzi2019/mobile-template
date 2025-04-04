@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { TRANSITION_NAME } from '@/constants';
 import { useRouteCacheStore } from '@/stores';
 import { useHead } from '@unhead/vue';
 
@@ -30,16 +31,26 @@ const keepAliveRouteNames = computed(() => {
 const mode = computed(() => {
   return isDark.value ? 'dark' : 'light';
 });
+
+const getTransitionName = (route) => {
+  return undefined;
+  console.log(route);
+  if (route.name === 'Login') {
+    return TRANSITION_NAME;
+  }
+};
 </script>
 
 <template>
   <van-config-provider :theme="mode">
     <app-nav-bar />
-    <router-view v-slot="{ Component }">
+    <router-view v-slot="{ Component, route }">
       <section class="app-wrapper">
-        <keep-alive :include="keepAliveRouteNames">
-          <component :is="Component" />
-        </keep-alive>
+        <transition :name="getTransitionName(route)" mode="out-in" appear>
+          <keep-alive :include="keepAliveRouteNames">
+            <component :is="Component" />
+          </keep-alive>
+        </transition>
       </section>
     </router-view>
     <bottom-menu />
@@ -51,5 +62,6 @@ const mode = computed(() => {
   position: relative;
   width: 100%;
   padding: 16px;
+  overflow: hidden;
 }
 </style>

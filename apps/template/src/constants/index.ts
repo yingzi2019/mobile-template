@@ -5,6 +5,7 @@ export const APP_DESCRIPTION = 'An mobile web apps template';
 export const DEFAULT_LOCALE = 'en-US';
 export const DEFAULT_HOME_PATH = '/';
 export const LOGIN_PATH = '/login';
+export const TRANSITION_NAME = 'fade-slide';
 
 export const fp = useStorage('fp', '');
 

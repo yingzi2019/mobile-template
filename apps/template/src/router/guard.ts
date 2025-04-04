@@ -1,12 +1,11 @@
-import type { Router } from 'vue-router';
+import type { Router, RouteRecordRaw } from 'vue-router';
 
-import { preferences } from '@vben/preferences';
 import { useAccessStore, useUserStore } from '@vben/stores';
 import { startProgress, stopProgress } from '@vben/utils';
 
 import { DEFAULT_HOME_PATH, LOGIN_PATH } from '@/constants';
 import { coreRouteNames } from '@/router/routes';
-import { useAuthStore } from '@/stores';
+import { useAuthStore, useRouteCacheStore } from '@/stores';
 
 function setupCommonGuard(router: Router) {
   const loadedPaths = new Set<string>();
@@ -14,17 +13,25 @@ function setupCommonGuard(router: Router) {
   router.beforeEach(async (to) => {
     to.meta.loaded = loadedPaths.has(to.path);
 
-    if (!to.meta.loaded && preferences.transition.progress) {
+    if (!to.meta.loaded) {
       startProgress();
     }
+    const routeCacheStore = useRouteCacheStore();
+
+    // Route cache
+    routeCacheStore.addRoute(to as unknown as RouteRecordRaw);
+
     return true;
   });
 
   router.afterEach((to) => {
-    loadedPaths.add(to.path);
-    if (preferences.transition.progress) {
+    to.meta.loaded = loadedPaths.has(to.path);
+
+    if (!to.meta.loaded) {
       stopProgress();
+      loadedPaths.add(to.path);
     }
+
     console.log('to', to.name);
   });
 }
