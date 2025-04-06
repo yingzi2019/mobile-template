@@ -23,6 +23,7 @@ declare module 'vue' {
     RightSkip: typeof import('./../components/AppNavBar/components/RightSkip.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SvgIcon: typeof import('./../components/SvgIcon/index.vue')['default']
     TabBar: typeof import('./../components/TabBar.vue')['default']
     Title: typeof import('./../components/AppNavBar/components/Title.vue')['default']
     ToggleDark: typeof import('./../components/AppNavBar/components/ToggleDark.vue')['default']

@@ -219,3 +219,4 @@ catalog:
   'vite-plugin-sitemap': ^0.7.1
   '@antfu/eslint-config': ^4.11.0
   'vite-plugin-mkcert': ^1.8.1
+  'vite-plugin-svg-icons': ^2.0.0

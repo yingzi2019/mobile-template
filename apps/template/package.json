@@ -87,6 +87,7 @@
     "vite-plugin-mock-dev-server": "catalog:",
     "vite-plugin-pwa": "catalog:",
     "vite-plugin-sitemap": "catalog:",
+    "vite-plugin-svg-icons": "catalog:",
     "vite-plugin-vconsole": "catalog:",
     "vite-plugin-vue-devtools": "catalog:",
     "vitest": "catalog:",

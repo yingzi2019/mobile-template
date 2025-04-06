@@ -1,5 +1,6 @@
 import type { PluginOption } from 'vite';
 
+import path from 'node:path';
 import process from 'node:process';
 
 import { VantResolver } from '@vant/auto-import-resolver';
@@ -13,6 +14,7 @@ import Components from 'unplugin-vue-components/vite';
 import { loadEnv } from 'vite';
 import mkcert from 'vite-plugin-mkcert';
 import Sitemap from 'vite-plugin-sitemap';
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 
 export async function createVitePlugins(mode: string) {
   const env = loadEnv(mode, process.cwd());
@@ -55,6 +57,11 @@ export async function createVitePlugins(mode: string) {
 
     legacy({
       targets: ['defaults', 'not IE 11'],
+    }),
+
+    createSvgIconsPlugin({
+      iconDirs: [path.resolve('./src/assets/icons')],
+      symbolId: 'icon-[name]',
     }),
 
     UnoCSS(),
