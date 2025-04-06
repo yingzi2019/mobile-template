@@ -7,6 +7,20 @@ export const DEFAULT_HOME_PATH = '/';
 export const LOGIN_PATH = '/login';
 export const TRANSITION_NAME = 'fade-slide';
 
+// @unocss-include
+export const selectionLocales = [
+  {
+    value: 'en-US',
+    label: 'English(US)',
+    icon: 'i-circle-flags-us',
+  },
+  {
+    value: 'zh-CN',
+    label: '简体中文',
+    icon: 'i-circle-flags-cn',
+  },
+];
+
 export const fp = useStorage('fp', '');
 
 export const resetStorage = () => {

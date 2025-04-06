@@ -1,3 +1,6 @@
+import { useAppLayoutStore } from '@/stores';
+
 export async function initAppConfig() {
-  console.log('initAppConfig');
+  const appLayoutStore = useAppLayoutStore();
+  appLayoutStore.initAppNavBar();
 }

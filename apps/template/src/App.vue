@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { stopProgress } from '@vben/utils';
+
 import { TRANSITION_NAME } from '@/constants';
 import { useRouteCacheStore } from '@/stores';
 import { useHead } from '@unhead/vue';
@@ -34,15 +36,26 @@ const mode = computed(() => {
 
 const getTransitionName = (route) => {
   return undefined;
+  // TODO: 需要根据路由层级来判断是否需要过渡动画
   console.log(route);
   if (route.name === 'Login') {
     return TRANSITION_NAME;
   }
 };
+
+const theme = computed(() => {
+  return isDark.value ? 'dark' : 'light';
+});
+
+onMounted(() => {
+  setTimeout(() => {
+    stopProgress();
+  }, 300);
+});
 </script>
 
 <template>
-  <van-config-provider :theme="mode">
+  <van-config-provider :theme="theme">
     <app-nav-bar />
     <router-view v-slot="{ Component, route }">
       <section class="app-wrapper">
@@ -56,12 +69,3 @@ const getTransitionName = (route) => {
     <bottom-menu />
   </van-config-provider>
 </template>
-
-<style scoped>
-.app-wrapper {
-  position: relative;
-  width: 100%;
-  padding: 16px;
-  overflow: hidden;
-}
-</style>

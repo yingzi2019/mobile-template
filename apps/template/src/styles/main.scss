@@ -1,0 +1,49 @@
+#app {
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+
+  --app-padding: var(--van-padding-md);
+}
+
+.van-nav-bar + .app-wrapper {
+  padding-top: var(--van-nav-bar-height);
+}
+
+.app-wrapper {
+  padding-inline: var(--app-padding);
+}
+
+#nprogress .bar {
+  background: var(--van-primary-color) !important; /* Vant 的主题蓝色 */
+}
+
+#nprogress .peg {
+  box-shadow:
+    0 0 10px var(--van-primary-color),
+    0 0 5px var(--van-primary-color) !important;
+}
+
+#nprogress .spinner-icon {
+  border-top-color: var(--van-primary-color) !important;
+  border-left-color: var(--van-primary-color) !important;
+}
+
+// toggle dark
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-old(root) {
+  z-index: 1;
+}
+::view-transition-new(root) {
+  z-index: 9999;
+}
+.dark::view-transition-old(root) {
+  z-index: 9999;
+}
+.dark::view-transition-new(root) {
+  z-index: 1;
+}

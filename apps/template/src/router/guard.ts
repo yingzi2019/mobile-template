@@ -32,7 +32,7 @@ function setupCommonGuard(router: Router) {
       loadedPaths.add(to.path);
     }
 
-    console.log('to', to.name);
+    console.log('afterEach', to.name);
   });
 }
 
@@ -67,6 +67,7 @@ function setupAccessGuard(router: Router) {
 
       // 没有访问权限，跳转登录页面
       if (to.fullPath !== LOGIN_PATH) {
+        stopProgress();
         return {
           path: LOGIN_PATH,
           // 如不需要，直接删除 query
@@ -115,5 +116,4 @@ function createRouterGuard(router: Router) {
   setupCommonGuard(router);
   setupAccessGuard(router);
 }
-
 export { createRouterGuard };

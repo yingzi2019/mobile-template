@@ -13,12 +13,12 @@ import { useTitle } from '@vueuse/core';
 
 // Vant 桌面端适配
 import '@vant/touch-emulator';
-import 'vant/es/toast/style';
-import 'vant/es/dialog/style';
-import 'vant/es/notify/style';
-import 'vant/es/image-preview/style';
 
+import 'vant/lib/style/css-variables.css';
+import 'vant/lib/index.css';
 import 'virtual:uno.css';
+import 'nprogress/nprogress.css';
+import '@/styles/main.scss';
 import '@/styles/transition.scss';
 
 async function bootstrap(namespace: string) {

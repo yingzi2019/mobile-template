@@ -1,5 +1,6 @@
 {
   "auth": {
+    "about": "About",
     "login": "Login",
     "register": "Register",
     "codeLogin": "Code Login",
